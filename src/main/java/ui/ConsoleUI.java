@@ -39,7 +39,6 @@ public class ConsoleUI {
                 default -> System.out.println("[INVALID] Please enter a valid option (1-5).");
             }
         }
-        scanner.close();
     }
 
     private void handleRegistration() {
