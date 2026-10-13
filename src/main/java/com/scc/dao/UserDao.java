@@ -1,6 +1,6 @@
 package com.scc.dao;
 
-import com.scc.User;
+import com.scc.model.User;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -60,7 +60,6 @@ public class UserDao {
         return users;
     }
 
-    // Updates a user's status (e.g., Pending -> Active)
     public boolean updateUserStatus(String username, String newStatus) {
         String sql = "UPDATE users SET status = ? WHERE username = ?";
 
@@ -79,7 +78,6 @@ public class UserDao {
         }
     }
 
-    // Validates credentials and checks if the account status is Active
     public boolean canLogin(String username, String password) {
         String sql = "SELECT status FROM users WHERE username = ? AND password = ?";
 

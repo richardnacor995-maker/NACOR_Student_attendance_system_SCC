@@ -1,6 +1,7 @@
 package com.scc;
 
 import com.scc.dao.UserDao;
+import com.scc.model.User;
 import java.util.List;
 import java.util.Scanner;
 
@@ -31,24 +32,17 @@ public class Main {
                     System.out.println("\n--- User Registration ---");
                     System.out.print("Enter username: ");
                     String username = scanner.nextLine();
-
                     System.out.print("Enter password: ");
                     String password = scanner.nextLine();
-
                     System.out.print("Enter last name: ");
                     String lastname = scanner.nextLine();
-
                     System.out.print("Enter course & section (e.g., IT2D): ");
                     String courseSection = scanner.nextLine();
-
                     System.out.print("Enter email: ");
                     String email = scanner.nextLine();
 
-                    // Status automatically set to "Pending" awaiting admin approval
                     User newUser = new User(0, username, password, lastname, courseSection, email, "Pending");
-
-                    boolean success = userDao.insertUser(newUser);
-                    if (success) {
+                    if (userDao.insertUser(newUser)) {
                         System.out.println("[SUCCESS] Registration successful!");
                         System.out.println("[NOTICE] Status: Pending approval by admin.");
                     } else {
@@ -63,10 +57,7 @@ public class Main {
                         System.out.println("No records found.");
                     } else {
                         for (User u : users) {
-                            System.out.println("ID: " + u.id() +
-                                    " | Name: " + u.lastname() + ", " + u.username() +
-                                    " | Section: " + u.courseSection() +
-                                    " | Status: " + u.status());
+                            System.out.println("ID: " + u.id() + " | Name: " + u.lastname() + ", " + u.username() + " | Section: " + u.courseSection() + " | Status: " + u.status());
                         }
                     }
                     break;
@@ -86,8 +77,7 @@ public class Main {
                     System.out.print("\nEnter username to approve (change to Active): ");
                     String targetUser = scanner.nextLine();
 
-                    boolean approved = userDao.updateUserStatus(targetUser, "Active");
-                    if (approved) {
+                    if (userDao.updateUserStatus(targetUser, "Active")) {
                         System.out.println("[SUCCESS] User " + targetUser + " is now Active and can log in!");
                     } else {
                         System.out.println("[ERROR] User not found or update failed.");
@@ -98,19 +88,17 @@ public class Main {
                     System.out.println("\n--- User Login ---");
                     System.out.print("Enter username: ");
                     String loginUser = scanner.nextLine();
-
                     System.out.print("Enter password: ");
                     String loginPass = scanner.nextLine();
 
-                    boolean canLogin = userDao.canLogin(loginUser, loginPass);
-                    if (canLogin) {
+                    if (userDao.canLogin(loginUser, loginPass)) {
                         System.out.println("[SUCCESS] Login successful! Welcome, " + loginUser + ".");
                     }
                     break;
 
                 case "5":
                     running = false;
-                    System.out.println("Exiting system. Goodbye!");
+                    System.out.println("System exited. Goodbye!");
                     break;
 
                 default:

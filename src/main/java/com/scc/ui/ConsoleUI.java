@@ -1,7 +1,7 @@
 package com.scc.ui;
 
-import com.scc.User;
 import com.scc.dao.UserDao;
+import com.scc.model.User;
 import java.util.List;
 import java.util.Scanner;
 
@@ -39,6 +39,7 @@ public class ConsoleUI {
                 default -> System.out.println("[INVALID] Please enter a valid option (1-5).");
             }
         }
+        scanner.close();
     }
 
     private void handleRegistration() {
