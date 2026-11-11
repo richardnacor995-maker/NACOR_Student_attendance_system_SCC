@@ -1,0 +1,39 @@
+package Dao;
+
+import java.sql.Connection;
+import java.sql.Statement;
+import java.sql.SQLException;
+
+public class DatabaseInitializer {
+
+    public static void initialize() {
+        String usersSql = """
+            CREATE TABLE IF NOT EXISTS users (
+                user_id INTEGER PRIMARY KEY AUTOINCREMENT,
+                username TEXT UNIQUE NOT NULL,
+                password TEXT NOT NULL,
+                role TEXT NOT NULL,
+                status TEXT NOT NULL DEFAULT 'PENDING'
+            );
+            """;
+
+        String logsSql = """
+            CREATE TABLE IF NOT EXISTS activity_logs (
+                log_id INTEGER PRIMARY KEY AUTOINCREMENT,
+                user_id INTEGER NOT NULL,
+                action_type TEXT NOT NULL,
+                description TEXT NOT NULL,
+                timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                FOREIGN KEY (user_id) REFERENCES users(user_id)
+            );
+            """;
+
+        try (Connection conn = DatabaseConnection.getConnection();
+             Statement stmt = conn.createStatement()) {
+            stmt.execute(usersSql);
+            stmt.execute(logsSql);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+}
